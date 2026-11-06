@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Graphic design and creative works portfolio.">
+  <meta name="theme-color" content="#F5F5F5">
+  <title>SAORI TANIZAWA — Portfolio</title>
+  <style>
+    :root {
+      --bg: #F5F5F5; --paper: #FFFFFF; --ink: #181818; --muted: #3A3A3A;
+      --line: #EEEEEE; --accent: #3A3A3A; --soft: #EEEEEE; --radius: 16px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: Inter, "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif; }
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; }
+    .wrap { width: min(1180px, calc(100% - 40px)); margin: auto; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 28px 0; border-bottom: 1px solid var(--line); }
+    .brand { font-size: 13px; font-weight: 800; letter-spacing: .12em; text-decoration: none; }
+    .nav { display: flex; gap: 22px; align-items: center; font-size: 12px; color: var(--muted); }
+    .nav a { text-decoration: none; }
+    .hero { padding: 74px 0 58px; display: grid; grid-template-columns: 1.2fr .8fr; gap: 40px; align-items: end; }
+    .eyebrow { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+    h1 { font-size: clamp(38px, 6vw, 76px); letter-spacing: -.06em; line-height: .98; margin: 16px 0 24px; font-weight: 650; }
+    .hero p { max-width: 600px; line-height: 1.9; font-size: 14px; color: #555750; margin: 0; }
+    .hero-note { border-left: 2px solid var(--accent); padding: 4px 0 4px 18px; color: var(--muted); font-size: 12px; line-height: 1.9; }
+    .toolbar { display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 20px 0; border-top: 1px solid var(--line); }
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+    .filter { border: 1px solid var(--line); background: #FFFFFF; border-radius: 999px; padding: 9px 14px; color: #62645d; font-size: 12px; transition: background .2s ease, color .2s ease, border-color .2s ease; }
+    .filter.active, .filter:hover { background: var(--ink); color: white; border-color: var(--ink); }
+    .count { color: var(--muted); font-size: 12px; white-space: nowrap; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 18px; padding: 12px 0 70px; }
+    .card { min-width: 0; border: 0; background: transparent; text-align: left; padding: 0; color: inherit; }
+    .thumb { aspect-ratio: 4 / 3; border-radius: 8px; overflow: hidden; background: #EEEEEE; position: relative; display: grid; place-items: center; }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s ease; }
+    .card:hover .thumb img { transform: scale(1.035); }
+    .placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center; color: #3A3A3A; background: linear-gradient(135deg, #EEEEEE, #F5F5F5); }
+    .placeholder strong { display: block; font-size: 11px; letter-spacing: .14em; margin-bottom: 8px; }
+    .placeholder span { font-size: 13px; line-height: 1.6; }
+    .card-meta { display: flex; justify-content: space-between; gap: 12px; padding-top: 12px; }
+    .card-title { font-size: 14px; font-weight: 650; }
+    .card-category { font-size: 10px; color: var(--muted); white-space: nowrap; padding-top: 3px; }
+    .card-sub { margin-top: 5px; color: var(--muted); font-size: 11px; }
+    .about { border-top: 1px solid var(--line); padding: 48px 0 58px; display: grid; grid-template-columns: .7fr 1.3fr; gap: 36px; }
+    .about h2, .contact h2 { margin: 0; font-size: 24px; letter-spacing: -.04em; }
+    .about p { margin: 0; color: #555750; font-size: 13px; line-height: 2; white-space: pre-line; }
+    .contact { border-top: 1px solid var(--line); padding: 38px 0 54px; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .contact p { color: var(--muted); font-size: 12px; line-height: 1.8; }
+    .contact-link { display: inline-block; padding: 13px 18px; border-radius: 999px; background: var(--ink); color: white; font-size: 12px; text-decoration: none; }
+    footer { border-top: 1px solid var(--line); padding: 18px 0 28px; display: flex; justify-content: space-between; color: var(--muted); font-size: 10px; letter-spacing: .08em; }
+    .modal { position: fixed; inset: 0; z-index: 10; background: rgba(20,21,19,.76); display: none; align-items: center; justify-content: center; padding: 24px; }
+    .modal.open { display: flex; }
+    .modal-panel { background: var(--paper); width: min(1470px, calc(100vw - 48px)); max-height: 96vh; overflow: auto; border-radius: 14px; display: grid; grid-template-columns: 1.15fr .85fr; position: relative; }
+    .modal-image { aspect-ratio: 4 / 3; width: 100%; min-height: 0; background: #EEEEEE; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+    .modal-image img { display: block; width: 100%; height: 100%; max-width: 100%; max-height: none; object-fit: contain; }
+    .project-nav { position: absolute; bottom: 16px; border: 1px solid rgba(24,24,24,.14); background: rgba(255,255,255,.94); color: #181818; border-radius: 999px; padding: 10px 15px; font-size: 12px; cursor: pointer; z-index: 2; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+    .project-nav:hover:not(:disabled) { background: #181818; color: #FFFFFF; border-color: #181818; }
+    .project-nav:disabled { opacity: .35; cursor: not-allowed; }
+    .project-nav.back { left: 16px; }
+    .project-nav.next { right: 16px; }
+    .modal-info { padding: 38px 30px; }
+    .close { position: absolute; top: 12px; right: 12px; border: 0; background: rgba(255,255,255,.92); border-radius: 50%; width: 38px; height: 38px; font-size: 22px; z-index: 1; }
+    .modal-info h2 { margin: 12px 0; font-size: 25px; line-height: 1.35; }
+    .modal-info .desc { font-size: 13px; line-height: 1.9; color: #555750; white-space: pre-line; }
+    .detail-list { border-top: 1px solid var(--line); margin-top: 22px; padding-top: 14px; }
+    .detail-row { display: grid; grid-template-columns: 84px 1fr; gap: 12px; padding: 8px 0; font-size: 12px; line-height: 1.7; }
+    .detail-row dt { color: var(--muted); }
+    .detail-row dd { margin: 0; }
+    .edit-bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin: 0 0 22px; padding: 14px 16px; border: 1px dashed #b7b9b0; border-radius: 12px; }
+    .edit-bar p { font-size: 11px; color: var(--muted); margin: 0; line-height: 1.7; }
+    .edit-button { border: 1px solid var(--ink); border-radius: 999px; padding: 10px 14px; background: var(--ink); color: white; font-size: 12px; white-space: nowrap; }
+    .edit-panel { display: none; background: white; border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin-bottom: 24px; }
+    .edit-panel.open { display: block; }
+    .edit-panel h3 { margin: 0 0 14px; font-size: 16px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .field { display: flex; flex-direction: column; gap: 6px; font-size: 11px; color: var(--muted); }
+    .field input, .field select, .field textarea { border: 1px solid var(--line); border-radius: 8px; padding: 10px; color: var(--ink); background: white; width: 100%; }
+    .field textarea { min-height: 75px; resize: vertical; }
+    .field.full { grid-column: 1 / -1; }
+    .edit-actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+    .secondary-button { border: 1px solid var(--line); background: white; border-radius: 999px; padding: 10px 14px; font-size: 12px; }
+    .notice { font-size: 11px; color: #856c3b; background: #faf4e5; border-radius: 8px; padding: 10px 12px; margin: 12px 0 0; line-height: 1.7; }
+    .empty { color: var(--muted); font-size: 13px; padding: 32px 0; }
+    @media (max-width: 760px) {
+      .wrap { width: min(100% - 28px, 600px); }
+      header { padding: 20px 0; } .nav { gap: 12px; }
+      .hero { padding: 52px 0 38px; grid-template-columns: 1fr; gap: 24px; }
+      .hero-note { max-width: 520px; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 12px; }
+      .toolbar { align-items: flex-start; flex-direction: column; }
+      .about { grid-template-columns: 1fr; gap: 16px; padding: 34px 0 42px; }
+      .contact { align-items: flex-start; flex-direction: column; }
+      .modal { padding: 10px; }
+      .modal-panel { display: block; max-height: 96vh; }
+      .modal-image { aspect-ratio: 4 / 3; min-height: 0; max-height: none; }
+      .modal-image img { max-height: none; }
+      .modal-info { padding: 24px 20px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .edit-bar { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="brand" href="#">SAORI TANIZAWA</a>
+      <nav class="nav"><a href="#works">WORKS</a><a href="#about">ABOUT</a><a href="#contact">CONTACT</a></nav>
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Graphic Design / Creative Works</div>
+        <h1>Ideas into<br>visual stories.</h1>
+        <p>販促物、SNSクリエイティブ、資料デザインなどの制作実績をまとめています。目的や伝えたいことを整理し、見る人に伝わる形にすることを大切にしています。</p>
+      </div>
+      <div class="hero-note">PORTFOLIO<br>Selected works<br>2022 — 2026</div>
+    </section>
+
+    <section id="works">
+      <div class="edit-bar">
+        <p><strong>作品を追加・プレビュー</strong><br>この編集機能は、開いているブラウザ内での確認用です。公開サイトへ恒久的に追加するには、画像ファイルと作品データをサイトに反映して再デプロイしてください。</p>
+        <button class="edit-button" id="toggleEditor">＋ 作品を追加</button>
+      </div>
+      <div class="edit-panel" id="editPanel">
+        <h3>新しい作品をプレビューに追加</h3>
+        <form id="projectForm">
+          <div class="form-grid">
+            <label class="field full">JPG / PNG画像を選択<input id="imageInput" type="file" accept="image/jpeg,image/png,image/webp" required></label>
+            <label class="field">作品名<input id="titleInput" required placeholder="例：Instagramキャンペーン画像"></label>
+            <label class="field">カテゴリ<select id="categoryInput"><option>チラシ・販促物</option><option>パンフレット</option><option>ロゴ</option><option>SNS・広告</option><option>求人広告</option><option>WEBサイト</option><option>その他</option></select></label>
+            <label class="field">制作年<input id="yearInput" placeholder="例：2026"></label>
+            <label class="field">使用ツール<input id="toolsInput" placeholder="例：Canva / Illustrator"></label>
+            <label class="field full">制作目的・工夫した点<textarea id="descriptionInput" placeholder="どんな目的で、どのような工夫をしたか"></textarea></label>
+            <label class="field full">担当範囲<input id="roleInput" placeholder="例：構成・デザイン・入稿"></label>
+          </div>
+          <div class="edit-actions">
+            <button class="edit-button" type="submit">プレビューに追加</button>
+            <button class="secondary-button" type="button" id="exportButton">作品データをJSONで書き出す</button>
+            <button class="secondary-button" type="button" id="closeEditor">閉じる</button>
+          </div>
+          <p class="notice">注意：このページで追加した画像は一時的なプレビュー用です。ページを再読み込みすると消えます。JSONには画像そのものは含まれないため、公開するには画像ファイルもサイトに追加してください。</p>
+        </form>
+      </div>
+      <div class="toolbar">
+        <div class="filters" id="filters"></div>
+        <div class="count" id="count"></div>
+      </div>
+      <div class="grid" id="grid"></div>
+    </section>
+
+    <section class="about" id="about">
+      <div><div class="eyebrow">About</div><h2>About me</h2></div>
+      <p>制作物の目的や見る人を意識しながら、情報を整理して伝わりやすいデザインにすることを心がけています。
+
+得意領域：SNSクリエイティブ／販促物／資料デザイン／情報整理
+使用ツール：Canva、Adobe Illustrator ほか
+
+※この文章は雛形です。ご自身の経験や担当範囲に合わせて編集してください。</p>
+    </section>
+
+    <section class="contact" id="contact">
+      <div><div class="eyebrow">Contact</div><h2>Let's connect.</h2><p>ご連絡先やプロフィールへのリンクを掲載できます。</p></div>
+      <a class="contact-link" href="mailto:your-email@example.com">CONTACT ME ↗</a>
+    </section>
+    <footer><span>© <span id="yearNow"></span> SAORI TANIZAWA</span><span>PORTFOLIO / SELECTED WORKS</span></footer>
+  </div>
+
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="作品詳細">
+    <div class="modal-panel">
+      <button class="close" id="closeModal" aria-label="閉じる">×</button>
+      <div class="modal-image" id="modalImage"></div>
+      <div class="modal-info" id="modalInfo"></div>
+    </div>
+  </div>
+
+  <script>
+    // 実際の作品は projects.js の projects 配列に登録してください。
+    const projects = [
+      { id: 1, title: "Instagramキャンペーン画像", category: "SNS・広告", year: "2026", tools: "Canva", role: "構成・デザイン", description: "キャンペーンの内容を短時間で理解できるよう、情報の優先順位と視線の流れを意識したデザイン。", image: "", placeholder: "SNS / AD", subtitle: "作品画像を差し替えてください" },
+      { id: 2, title: "サービス紹介チラシ", category: "チラシ・販促物", year: "2026", tools: "Illustrator", role: "デザイン", description: "サービスの特徴と利用メリットが伝わるように整理した販促物。", image: "", placeholder: "FLYER", subtitle: "作品画像を差し替えてください" },
+      { id: 3, title: "会社案内パンフレット", category: "パンフレット", year: "2025", tools: "Canva", role: "構成・デザイン", description: "情報を整理し、会社の特徴や強みが伝わるようにまとめたパンフレット。", image: "", placeholder: "PAMPHLET", subtitle: "作品画像を差し替えてください" },
+      { id: 4, title: "Webサイトデザイン", category: "WEBサイト", year: "2025", tools: "Canva", role: "構成・デザイン", description: "必要な情報を整理し、目的の情報にたどり着きやすいページ構成を意識したデザイン。", image: "", placeholder: "WEB DESIGN", subtitle: "作品画像を差し替えてください" },
+      { id: 5, title: "求人広告クリエイティブ", category: "求人広告", year: "2025", tools: "Canva", role: "デザイン", description: "仕事内容や職場の魅力が応募者に伝わるよう、情報の優先順位を意識した求人広告。", image: "", placeholder: "RECRUITING", subtitle: "作品画像を差し替えてください" },
+      { id: 6, title: "ロゴデザイン", category: "ロゴ", year: "2024", tools: "Illustrator", role: "デザイン", description: "ブランドの印象や用途を踏まえ、シンプルで認識しやすい形を意識したロゴ。", image: "", placeholder: "LOGO DESIGN", subtitle: "作品画像を差し替えてください" }
+    ];
+    const categories = ["すべて", "チラシ・販促物", "パンフレット", "ロゴ", "SNS・広告", "求人広告", "WEBサイト", "その他"];
+    let activeCategory = "すべて";
+    let addedProjects = [];
+    let currentProject = null;
+    const grid = document.getElementById("grid");
+    const filters = document.getElementById("filters");
+    const count = document.getElementById("count");
+    const modal = document.getElementById("modal");
+
+    document.getElementById("yearNow").textContent = new Date().getFullYear();
+
+    function allProjects() { return [...projects, ...addedProjects]; }
+    function safeText(value) {
+      return String(value || "").replace(/[&<>"']/g, ch => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[ch]));
+    }
+    function makePlaceholder(project) {
+      return `<div class="placeholder"><div><strong>${safeText(project.placeholder || project.category)}</strong><span>${safeText(project.subtitle || "画像を登録してください")}</span></div></div>`;
+    }
+    function renderFilters() {
+      filters.innerHTML = categories.map(cat => `<button class="filter ${activeCategory === cat ? "active" : ""}" data-category="${safeText(cat)}">${safeText(cat)}</button>`).join("");
+      filters.querySelectorAll("button").forEach(btn => btn.addEventListener("click", () => {
+        activeCategory = btn.dataset.category; renderFilters(); renderGrid();
+      }));
+    }
+    function renderGrid() {
+      const list = allProjects().filter(p => activeCategory === "すべて" || p.category === activeCategory);
+      count.textContent = `${list.length} WORKS`;
+      if (!list.length) { grid.innerHTML = '<div class="empty">このカテゴリにはまだ作品がありません。</div>'; return; }
+      grid.innerHTML = list.map(p => `
+        <button class="card" data-id="${p.id}" aria-label="${safeText(p.title)}の詳細を開く">
+          <div class="thumb">${p.image ? `<img src="${p.image}" alt="${safeText(p.title)}" loading="lazy">` : makePlaceholder(p)}</div>
+          <div class="card-meta"><span class="card-title">${safeText(p.title)}</span><span class="card-category">${safeText(p.category)}</span></div>
+          <div class="card-sub">${safeText(p.year || "")}${p.tools ? " · " + safeText(p.tools) : ""}</div>
+        </button>`).join("");
+      grid.querySelectorAll(".card").forEach(card => card.addEventListener("click", () => {
+        const p = allProjects().find(x => String(x.id) === card.dataset.id);
+        if (p) openProject(p);
+      }));
+    }
+    function visibleProjects() {
+      return allProjects().filter(project => activeCategory === "すべて" || project.category === activeCategory);
+    }
+    function openProject(p) {
+      currentProject = p;
+      const imageBox = document.getElementById("modalImage");
+      imageBox.innerHTML = `${p.image ? `<img src="${p.image}" alt="${safeText(p.title)}">` : makePlaceholder(p)}
+        <button class="project-nav back" id="previousProject" type="button">← Back</button>
+        <button class="project-nav next" id="nextProject" type="button">Next →</button>`;
+      const list = visibleProjects();
+      const index = list.findIndex(project => String(project.id) === String(p.id));
+      const previousButton = document.getElementById("previousProject");
+      const nextButton = document.getElementById("nextProject");
+      previousButton.disabled = index <= 0;
+      nextButton.disabled = index < 0 || index >= list.length - 1;
+      previousButton.addEventListener("click", () => { if (index > 0) openProject(list[index - 1]); });
+      nextButton.addEventListener("click", () => { if (index >= 0 && index < list.length - 1) openProject(list[index + 1]); });
+      document.getElementById("modalInfo").innerHTML = `
+        <div class="eyebrow">${safeText(p.category)}${p.year ? " / " + safeText(p.year) : ""}</div>
+        <h2>${safeText(p.title)}</h2>
+        <div class="desc">${safeText(p.description || "制作の目的や工夫した点を記載してください。")}</div>
+        <dl class="detail-list">
+          <div class="detail-row"><dt>担当範囲</dt><dd>${safeText(p.role || "未設定")}</dd></div>
+          <div class="detail-row"><dt>使用ツール</dt><dd>${safeText(p.tools || "未設定")}</dd></div>
+          <div class="detail-row"><dt>制作年</dt><dd>${safeText(p.year || "未設定")}</dd></div>
+        </dl>`;
+      modal.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+    function closeModal() { modal.classList.remove("open"); document.body.style.overflow = ""; }
+    document.getElementById("closeModal").addEventListener("click", closeModal);
+    modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+    const editPanel = document.getElementById("editPanel");
+    document.getElementById("toggleEditor").addEventListener("click", () => editPanel.classList.toggle("open"));
+    document.getElementById("closeEditor").addEventListener("click", () => editPanel.classList.remove("open"));
+    document.getElementById("projectForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const file = document.getElementById("imageInput").files[0];
+      if (!file) return;
+      if (!file.type.startsWith("image/")) { alert("画像ファイルを選択してください。"); return; }
+      const reader = new FileReader();
+      reader.onload = () => {
+        addedProjects.unshift({
+          id: "new-" + Date.now(),
+          title: document.getElementById("titleInput").value.trim(),
+          category: document.getElementById("categoryInput").value,
+          year: document.getElementById("yearInput").value.trim(),
+          tools: document.getElementById("toolsInput").value.trim(),
+          role: document.getElementById("roleInput").value.trim(),
+          description: document.getElementById("descriptionInput").value.trim(),
+          image: reader.result
+        });
+        activeCategory = "すべて"; renderFilters(); renderGrid();
+        e.target.reset();
+        editPanel.classList.remove("open");
+      };
+      reader.readAsDataURL(file);
+    });
+    document.getElementById("exportButton").addEventListener("click", () => {
+      const data = allProjects().map(({ image, ...p }) => p);
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a"); a.href = url; a.download = "portfolio-projects.json"; a.click();
+      URL.revokeObjectURL(url);
+    });
+    renderFilters(); renderGrid();
+  </script>
+</body>
+</html>
